@@ -1,36 +1,151 @@
-# GitHub Actions Repository
+# GitHub Webhook Events Monitor
 
-This repository demonstrates the use of GitHub Actions to trigger webhooks for various GitHub events.
+A real-time dashboard that monitors GitHub events (push, pull requests, and merges) using webhooks and displays them in a beautiful dark mode UI.
 
-## Setup
-
-1. Clone this repository
-2. Go to repository settings
-3. Add a new secret:
-   - Name: `WEBHOOK_URL`
-   - Value: Your webhook endpoint URL (e.g., `http://your-domain/webhook`)
+![GitHub Webhook Events Monitor Dashboard](images/dashboard.png)
+![GitHub Webhook Events Monitor Dashboard](images/dashboard1.png)
 
 ## Features
 
-- Triggers webhooks on:
-  - Push events to any branch
-  - Pull request events (opened, closed, synchronize)
-- Automatically detects merge events
-- Sends formatted payload to webhook endpoint
+- 🎯 Real-time event monitoring
+- 🌙 Modern dark mode UI
+- 📊 Event statistics dashboard
+- 🔍 Search and filter capabilities
+- 📱 Responsive design
+- 🔄 Auto-refresh every 15 seconds
+- 🎨 Beautiful animations and transitions
 
-## Testing
+## Prerequisites
 
-To test the webhook integration:
+- Python 3.8+
+- MongoDB
+- GitHub account
+- ngrok (for local development)
 
-1. Make a push to any branch
-2. Create a pull request
-3. Merge a pull request
+## Setup Instructions
 
-Each action will trigger the webhook and send the event data to your configured endpoint.
+### 1. Clone the Repositories
 
-Test push event - $(date)
-Test push event 2 - $(date)
-Test push event 3 - $(date)
-Test push event 4 - $(date)
-Test push event 5 - $(date)
-Test push event 6 - $(date) - Testing dark mode UI 
+```bash
+# Clone the webhook server repository
+git clone https://github.com/yourusername/webhook-repo.git
+cd webhook-repo
+
+# Clone the action repository
+git clone https://github.com/yourusername/action-repo.git
+cd action-repo
+```
+
+### 2. Set Up the Webhook Server
+
+```bash
+# Navigate to webhook-repo
+cd webhook-repo
+
+# Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start MongoDB (if not running)
+mongod
+
+# Start the Flask server
+python app.py
+```
+
+### 3. Set Up ngrok for Local Development
+
+```bash
+# Install ngrok
+brew install ngrok  # On macOS
+# or download from https://ngrok.com/download
+
+# Start ngrok tunnel
+ngrok http 5050
+```
+
+### 4. Configure GitHub Repository
+
+1. Go to your `action-repo` repository settings
+2. Navigate to Secrets and Variables > Actions
+3. Add the following secrets:
+   - `WEBHOOK_URL`: Your ngrok URL + `/webhook` (e.g., `https://xxxx-xx-xx-xxx-xx.ngrok-free.app/webhook`)
+
+### 5. Configure GitHub Actions
+
+The workflow is already configured in `.github/workflows/webhook.yml`. It will:
+- Trigger on push events
+- Send webhook data to your Flask server
+- Store events in MongoDB
+- Display them in the UI
+
+## Usage
+
+1. Start the Flask server:
+   ```bash
+   cd webhook-repo
+   source venv/bin/activate
+   python app.py
+   ```
+
+2. Access the dashboard:
+   - Open `http://localhost:5050` in your browser
+   - The UI will auto-refresh every 15 seconds
+
+3. Make changes to trigger events:
+   - Push to any branch
+   - Create a pull request
+   - Merge a pull request
+
+4. View events in the dashboard:
+   - Total events count
+   - Push events
+   - Pull requests
+   - Merges
+   - Detailed event information
+
+## UI Features
+
+### Dashboard
+- Real-time statistics
+- Event type distribution
+- Total event count
+
+### Event List
+- Chronological order
+- Event type badges
+- Author information
+- Branch details
+- Timestamps
+
+### Search & Filter
+- Search by author or branch
+- Filter by event type
+- Instant results
+
+### Mobile Responsive
+- Works on all devices
+- Optimized layout
+- Touch-friendly interface
+
+## Troubleshooting
+
+1. **Webhook not receiving events**
+   - Check ngrok is running
+   - Verify WEBHOOK_URL secret
+   - Check GitHub Actions workflow
+
+2. **Events not showing in UI**
+   - Verify MongoDB connection
+   - Check Flask server logs
+   - Ensure correct ngrok URL
+
+3. **UI not updating**
+   - Check browser console
+   - Verify auto-refresh interval
+   - Try manual refresh
+
+THANKYOU!
