@@ -26,4 +26,6 @@ To test the webhook integration:
 2. Create a pull request
 3. Merge a pull request
 
-Each action will trigger the webhook and send the event data to your configured endpoint. 
+Each action will trigger the webhook and send the event data to your configured endpoint.
+
+Test push event - $(date) 
