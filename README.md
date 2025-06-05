@@ -32,4 +32,5 @@ Test push event - $(date)
 Test push event 2 - $(date)
 Test push event 3 - $(date)
 Test push event 4 - $(date)
-Test push event 5 - $(date) 
+Test push event 5 - $(date)
+Test push event 6 - $(date) - Testing dark mode UI 
